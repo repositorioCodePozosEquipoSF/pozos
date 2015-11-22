@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mx.com.pemex.informaciontecnica.mybatis.mapper.InformacionTecnicaMapper">
+
+	<!-- ##### DATOS PARA COMBO DE ESPECIALIDAD ##### -->
+	<resultMap id="result_getDataCombosEsp" type="DatosComboDtoEsp">
+		<id		property="id"	 column="IDESPECIALIDAD"/>
+		<result property="valor" column="DESCESPECIALIDAD"/>
+	</resultMap>
+
+	<!-- select id="spr_Especialidades" resultMap="result_getDataCombosEsp" statementType="CALLABLE">
+		<![CDATA[{ CALL PEMEX.SP_ESPECIALIDADES() }]]>
+	</select -->
+	
+	<select id="spr_Especialidades" resultMap="result_getDataCombosEsp">
+		select * from PEMEX.tipo_especialidad
+		 order by idespecialidad asc
+	</select>
+	
+	<!-- ##### DATOS PARA COMBO DE TIPO DE DOCUMENTO ##### -->
+	<resultMap id="result_getDataCombosTdo" type="DatosComboDtoTdo">
+		<id		property="id"	 column="IDDOCTO"/>
+		<result property="valor" column="DESCDOCTO"/>
+	</resultMap>
+	
+	<select id="spr_TipoDocumento" resultMap="result_getDataCombosTdo">
+		select * from PEMEX.tipo_documento
+		 order by iddocto asc
+	</select>
+
+	<!-- ##### DATOS PARA COMBO DE TIPO DE COMPANIA ##### -->
+	<resultMap id="result_getDatosComboCia" type="DatosComboDtoCia">
+		<id		property="id"	 column="IDCOMPANIA"/>
+		<result property="valor" column="DESCCOMPANIA"/>
+	</resultMap>
+	
+	<select id="spr_Compania" resultMap="result_getDatosComboCia">
+		select idcompania, desccompania from PEMEX.tipo_compania
+		 order by idcompania asc
+	</select>
+
+	<!-- ##### DATOS PARA COMBO DE TIPO DE UNIVERSIDADES ##### -->
+	<resultMap id="result_getDatosComboUni" type="DatosComboDtoUni">
+		<id		property="id"	 column="IDUNIVERSIDAD"/>
+		<result property="valor" column="DESCUNIVERSIDAD"/>
+	</resultMap>
+	
+	<select id="spr_Universidad" resultMap="result_getDatosComboUni">
+		select iduniversidad, descuniversidad from PEMEX.tipo_universidades
+		 order by iduniversidad asc
+	</select>
+		
+	<!-- ##### DATOS PARA COMBO DE TIPO DE CENTROS DE INVESTIGACION ##### -->
+	<resultMap id="result_getDatosComboCin" type="DatosComboDtoCin">
+		<id		property="id"	 column="IDCI"/>
+		<result property="valor" column="DESCCI"/>
+	</resultMap>
+	
+	<select id="spr_CentroInvestigacion" resultMap="result_getDatosComboCin">
+		select idci, descci from PEMEX.tipo_centroinvestigacion
+		 order by idci asc
+	</select>
+	
+	<!-- ##### CONSULTA DE INFORMACION TECNICA ##### -->
+	<resultMap id="result_getInformacionTecnica" type="InformacionTecnicaDto">
+		<id		property="id"				column="ID"/>
+		<result property="idEspecialidad"	column="IDESPECIALIDAD"/>
+		<result property="descEspecialidad"	column="DESCESPECIALIDAD"/>
+		<result property="idDocto"			column="IDDOCTO"/>
+		<result property="descDocto"		column="DESCDOCTO"/>
+		<result property="idArticulo"		column="IDARTICULO"/>
+		<result property="titulo_docto"		column="TITULO_DOCTO"/>
+		<result property="autores"			column="AUTORES"/>
+		<result property="fecha_publicacion" column="FECHA_PUBLICACION"/>
+		<result property="url"				column="URL"/>
+		<result property="archivo_pdf"		column="ARCHIVO_PDF"/>
+	</resultMap>
+	
+	<select id="spr_InformacionTecnica" parameterType="InforTecn" resultMap="result_getInformacionTecnica">
+		SELECT DOCTO.ID, 
+		       DOCTO.IDESPECIALIDAD, TPO_ESP.DESCESPECIALIDAD, 
+		       DOCTO.IDDOCTO, TPO_DOCTO.DESCDOCTO, 
+		       DECODE(DOCTO.IDARTICULO, NULL, 'N/A', DOCTO.IDARTICULO) AS IDARTICULO,
+		       DOCTO.TITULO_DOCTO, 
+		       DOCTO.AUTORES, 
+		       DOCTO.FECHA_PUBLICACION,  
+		       DECODE(DOCTO.URL, NULL, 'S/INF', ' ', 'S/INF', DOCTO.URL) AS URL,
+		       DECODE(DOCTO.ARCHIVO_PDF, NULL, 'S/INF', ' ', 'S/INF', SUBSTR(DOCTO.ARCHIVO_PDF, 10)) AS ARCHIVO_PDF
+		  FROM PEMEX.DOCUMENTO DOCTO,
+		       PEMEX.TIPO_DOCUMENTO TPO_DOCTO,
+		       PEMEX.TIPO_ESPECIALIDAD TPO_ESP
+		 WHERE DOCTO.IDESPECIALIDAD = TPO_ESP.IDESPECIALIDAD
+		   AND DOCTO.IDDOCTO = TPO_DOCTO.IDDOCTO
+		   AND DOCTO.IDESPECIALIDAD IN (#{especialidad_1}, #{especialidad_2}, #{especialidad_4}, #{especialidad_5}, #{especialidad_6})
+		   AND DOCTO.IDDOCTO IN (#{tipoDocto_1}, #{tipoDocto_2}, #{tipoDocto_3}, #{tipoDocto_4}, #{tipoDocto_5}) 
+		   AND DOCTO.FECHA_PUBLICACION IN (#{fechaPublicacion_2015}, #{fechaPublicacion_2014}, #{fechaPublicacion_2013}, #{fechaPublicacion_2012}, #{fechaPublicacion_2011}, #{fechaPublicacion_2010})
+		   AND ( UPPER(TRANSLATE(DOCTO.AUTORES, 'áéíóöőúüűÁÉÍÓÚÄËÏÖÜŇ','aeiooouuuAEIOUAEIOUN')) LIKE ('%' || UPPER(TRANSLATE(#{cadenaAbuscar}, 'áéíóöőúüűÁÉÍÓÚÄËÏÖÜŇ','aeiooouuuAEIOUAEIOUN')) || '%')
+            OR   UPPER(TRANSLATE(DOCTO.TITULO_DOCTO, 'áéíóöőúüűÁÉÍÓÚÄËÏÖÜŇ','aeiooouuuAEIOUAEIOUN')) LIKE ('%' || UPPER(TRANSLATE(#{cadenaAbuscar}, 'áéíóöőúüűÁÉÍÓÚÄËÏÖÜŇ','aeiooouuuAEIOUAEIOUN')) || '%'))
+	</select>
+	
+	<!-- ##### CONSULTA DE INFORMACION TECNICA CON SOLO TEXTO ##### -->
+	<!-- select id="spr_InformacionTecnicaTxt" parameterType="InforTecn" resultMap="result_getInformacionTecnica">
+		SELECT DOCTO.ID, 
+		       DOCTO.IDESPECIALIDAD, TPO_ESP.DESCESPECIALIDAD, 
+		       DOCTO.IDDOCTO, TPO_DOCTO.DESCDOCTO, 
+		       DECODE(DOCTO.IDARTICULO, NULL, 'N/A', DOCTO.IDARTICULO) AS IDARTICULO,
+		       DOCTO.TITULO_DOCTO, 
+		       DOCTO.AUTORES, 
+		       DOCTO.FECHA_PUBLICACION,  
+		       DECODE(DOCTO.URL, NULL, 'S/INF', ' ', 'S/INF', DOCTO.URL) AS URL,
+		       DECODE(DOCTO.ARCHIVO_PDF, NULL, 'S/INF', ' ', 'S/INF', SUBSTR(DOCTO.ARCHIVO_PDF, 10)) AS ARCHIVO_PDF
+		  FROM PEMEX.DOCUMENTO DOCTO,
+		       PEMEX.TIPO_DOCUMENTO TPO_DOCTO,
+		       PEMEX.TIPO_ESPECIALIDAD TPO_ESP
+		 WHERE DOCTO.IDESPECIALIDAD = TPO_ESP.IDESPECIALIDAD
+		   AND DOCTO.IDDOCTO = TPO_DOCTO.IDDOCTO
+		   AND ( UPPER(TRANSLATE(DOCTO.AUTORES, 'áéíóöőúüűÁÉÍÓÚÄËÏÖÜŇ','aeiooouuuAEIOUAEIOUN')) LIKE ('%' || UPPER(TRANSLATE(#{cadenaAbuscar}, 'áéíóöőúüűÁÉÍÓÚÄËÏÖÜŇ','aeiooouuuAEIOUAEIOUN')) || '%')
+            OR   UPPER(TRANSLATE(DOCTO.TITULO_DOCTO, 'áéíóöőúüűÁÉÍÓÚÄËÏÖÜŇ','aeiooouuuAEIOUAEIOUN')) LIKE ('%' || UPPER(TRANSLATE(#{cadenaAbuscar}, 'áéíóöőúüűÁÉÍÓÚÄËÏÖÜŇ','aeiooouuuAEIOUAEIOUN')) || '%'))
+	</select>	
+	
+	<select id="spr_InfoTecnTest" parameterType="InforTecn2" resultMap="result_getInformacionTecnica">
+        SELECT DISTINCT 
+               DOCTO.ID, 
+               DOCTO.IDESPECIALIDAD, 
+               TPO_ESP.DESCESPECIALIDAD, 
+               DOCTO.IDDOCTO, 
+               TPO_DOCTO.DESCDOCTO, 
+               DECODE(DOCTO.IDARTICULO, NULL, 'N/A', DOCTO.IDARTICULO) AS IDARTICULO,
+               DOCTO.TITULO_DOCTO, 
+               DOCTO.AUTORES, 
+               DOCTO.FECHA_PUBLICACION,  
+               DECODE(DOCTO.URL, NULL, 'S/INF', ' ', 'S/INF', DOCTO.URL) AS URL,
+               DECODE(DOCTO.ARCHIVO_PDF, NULL, 'S/INF', ' ', 'S/INF', SUBSTR(DOCTO.ARCHIVO_PDF, 10)) AS ARCHIVO_PDF
+          FROM PEMEX.DOCUMENTO DOCTO,
+               PEMEX.TIPO_DOCUMENTO TPO_DOCTO,
+               PEMEX.TIPO_ESPECIALIDAD TPO_ESP
+         WHERE DOCTO.IDESPECIALIDAD = TPO_ESP.IDESPECIALIDAD
+           AND DOCTO.IDDOCTO = TPO_DOCTO.IDDOCTO
+      <choose>
+       <when test="fechasPublicacion > 0 and tipoDoctos > 0 and especialidades > 0 and cadenaAbuscar = null">
+           AND DOCTO.IDESPECIALIDAD = TPO_ESP.IDESPECIALIDAD
+           AND DOCTO.IDDOCTO = TPO_DOCTO.IDDOCTO	
+           AND DOCTO.FECHA_PUBLICACION = #{fechasPublicacion}
+           AND TPO_DOCTO.IDDOCTO = #{tipoDoctos}
+           AND TPO_ESP.IDESPECIALIDAD = #{especialidades}
+       </when>
+       <when test="fechasPublicacion > 0 and tipoDoctos > 0 and especialidades > 0 and cadenaAbuscar != null">
+           AND DOCTO.IDESPECIALIDAD = TPO_ESP.IDESPECIALIDAD
+           AND DOCTO.IDDOCTO = TPO_DOCTO.IDDOCTO	
+           AND DOCTO.FECHA_PUBLICACION = #{fechasPublicacion}
+           AND TPO_DOCTO.IDDOCTO = #{tipoDoctos}
+           AND TPO_ESP.IDESPECIALIDAD = #{especialidades}
+           AND ( UPPER(TRANSLATE(DOCTO.AUTORES, 'áéíóöőúüűÁÉÍÓÚÄËÏÖÜŇ','aeiooouuuAEIOUAEIOUN')) LIKE ('%' || UPPER(TRANSLATE(#{cadenaAbuscar}, 'áéíóöőúüűÁÉÍÓÚÄËÏÖÜŇ','aeiooouuuAEIOUAEIOUN')) || '%')
+            OR   UPPER(TRANSLATE(DOCTO.TITULO_DOCTO, 'áéíóöőúüűÁÉÍÓÚÄËÏÖÜŇ','aeiooouuuAEIOUAEIOUN')) LIKE ('%' || UPPER(TRANSLATE(#{cadenaAbuscar}, 'áéíóöőúüűÁÉÍÓÚÄËÏÖÜŇ','aeiooouuuAEIOUAEIOUN')) || '%'))
+       </when>
+       <otherwise>
+         ORDER BY DOCTO.ID ASC
+       </otherwise>
+      </choose>
+	</select -->	
+	
+	<!-- select id="spr_InfoTecnTest" parameterType="java.util.Map" statementType="CALLABLE">
+		<![CDATA[{ call PEMEX.SP_DOCUMENTOS( #{fechasPublicacion,	jdbcType=INTEGER, mode=IN},
+        						#{tipoDoctos,			jdbcType=INTEGER, mode=IN},
+        						#{especialidades,		jdbcType=INTEGER, mode=IN},
+        						#{cadenaAbuscar,		jdbcType=INTEGER, mode=IN},
+        						#{resultadoBusqueda,	jdbcType=CURSOR, javaType=java.sql.ResultSet, mode=OUT, resultMap=result_getInformacionTecnica})
+        }]]>						
+	</select -->
+	
+	<!-- insert id="spi_AltaInformacionTecnica" parameterType="InformacionTecnicaDto" >
+		INSERT INTO PEMEX.DOCUMENTO (ID, IDESPECIALIDAD,    IDDOCTO,    TITULO_DOCTO,    FECHA_PUBLICACION,    IDARTICULO,    AUTORES,    URL,    ARCHIVO_PDF) 
+						VALUES (#{id}, #{idEspecialidad}, #{idDocto}, #{titulo_docto}, #{fecha_publicacion}, #{idArticulo}, #{autores}, #{url}, #{archivo_pdf})
+	</insert-->
+
+	<insert id="spi_AltaInformacionTecnica" parameterType="InformacionTecnicaDto" statementType="CALLABLE">
+		CALL PEMEX.SPI_INFOTECNICA(#{idEspecialidad}, #{idDocto}, #{titulo_docto}, #{fecha_publicacion}, #{idArticulo}, #{autores}, #{url}, #{archivo_pdf})
+	</insert>	
+</mapper>

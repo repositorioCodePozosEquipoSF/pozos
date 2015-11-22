@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<properties resource="mx/com/pemex/mybatis/properties/config.properties"></properties>
+
+	<typeAliases>
+		<!-- ALIAS REFERENTES AL MODULO DE CONSULTA DE POZOS -->
+		<typeAlias alias="ConsultaInfoPozoDto" type="mx.com.pemex.pozospemex.dto.ConsultaInfoPozoDto"/>
+		<typeAlias alias="PozoInformacionDto"  type="mx.com.pemex.pozospemex.dto.PozoInformacionDto"/>
+	
+		<!-- ALIAS REFERENTES AL MODULO DE INFORMACION TECNICA -->
+		<typeAlias alias="DatosComboDtoEsp"			type="mx.com.pemex.informaciontecnica.dto.DatosComboDto"/>	
+		<typeAlias alias="DatosComboDtoTdo" 		type="mx.com.pemex.informaciontecnica.dto.DatosComboDto"/>	
+		<typeAlias alias="DatosComboDtoCia" 		type="mx.com.pemex.informaciontecnica.dto.DatosComboDto"/>	
+		<typeAlias alias="DatosComboDtoUni" 		type="mx.com.pemex.informaciontecnica.dto.DatosComboDto"/>	
+		<typeAlias alias="DatosComboDtoCin" 		type="mx.com.pemex.informaciontecnica.dto.DatosComboDto"/>	
+		<typeAlias alias="InformacionTecnicaDto"	type="mx.com.pemex.informaciontecnica.dto.InformacionTecnicaDto"/>	
+		<typeAlias alias="InforTecn" 				type="mx.com.pemex.informaciontecnica.dto.InfoTecDto"/>	
+		<typeAlias alias="InforTecn2" 				type="mx.com.pemex.informaciontecnica.dto.InfoTecDto2"/>
+		
+		<!-- ALIAS REFERENTES AL MODULO DE POZOS TIPO -->
+		<typeAlias alias="PozosTipo" 				type="mx.com.pemex.pozostipo.dto.PozosTipoDto"/>	
+	</typeAliases>
+ 
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}"/>
+				<property name="url" value="${url}"/>
+				<property name="username" value="${username}"/>
+				<property name="password" value="${password}"/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<mappers>
+		<mapper resource="mx/com/pemex/informaciontecnica/mybatis/mapper/InformacionTecnicaMapper.xml"/>
+		<mapper resource="mx/com/pemex/pozospemex/mybatis/mapper/PozosMapper.xml"/>
+		<mapper resource="mx/com/pemex/pozostipo/mybatis/mapper/PozosTipoMapper.xml"/>
+	</mappers>
+	
+</configuration>

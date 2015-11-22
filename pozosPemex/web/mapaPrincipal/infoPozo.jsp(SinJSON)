@@ -1,0 +1,226 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html:html>
+<head>
+
+<title>Informaci&oacute;n de pozoz Pemex</title>
+</head>
+
+<!-- CARROUSEL -->
+<link rel="stylesheet" href="/pozosPemex/css/normalize.min.css">
+<link rel="stylesheet" href="/pozosPemex/css/main.css">
+<script src="/pozosPemex/js/jquery/modernizr-2.6.2.min.js"></script>
+
+<!-- MENU HORIZONTAL -->
+	<link rel="stylesheet" type="text/css" href="/pozosPemex/dropDownMenu/css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="/pozosPemex/dropDownMenu/css/menu.css">
+    
+	<script type="text/javascript" src="/pozosPemex/dropDownMenu/js/jquery.js"></script>
+	<script type="text/javascript" src="/pozosPemex/dropDownMenu/js/function.js"></script>
+	
+<!-- MENU VERTICAL -->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+	<!-- script src="/pozosPemex/js/jquery/ui/jquery-ui-1.9.2/development-bundle/ui/jquery.ui.core.js"></script>
+	<script src="/pozosPemex/js/jquery/ui/jquery-ui-1.9.2/development-bundle/ui/jquery.ui.widget.js"></script>
+	<script src="/pozosPemex/js/jquery/ui/jquery-ui-1.9.2/development-bundle/ui/jquery.ui.position.js"></script>
+	<script src="/pozosPemex/js/jquery/ui/jquery-ui-1.9.2/development-bundle/ui/jquery.ui.menu.js"></script>
+	<link rel="stylesheet" href="/pozosPemex/js/jquery/ui/jquery-ui-1.9.2/development-bundle/demos/demos.css" -->
+	
+	<script src="//code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+	<!-- script src="/pozosPemex/js/jquery/ui/jquery-ui-1.9.2.custom/development-bundle/jquery-1.8.3.js"></script -->
+	
+	<script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+
+<!-- script type="text/javascript">
+	function cambiaBtnActivo(op){	
+		if(op == 1)
+			$('#btnCE').css('cursor','pointer').attr("src", "/pozosPemex/img/btn_CaracEjec_on.jpg");	
+		else if(op == 2)
+			$('#btnPR').css('cursor','pointer').attr("src", "/pozosPemex/img/btn_ParamRef_on.jpg");	
+		else if(op == 3)
+			$('#btnDP').css('cursor','pointer').attr("src", "/pozosPemex/img/btn_DesPerf_on.jpg");	
+		else if(op == 4)
+			$('#btnPT').css('cursor','pointer').attr("src", "/pozosPemex/img/btn_PerfTerm_on.jpg");	
+		else if(op == 5)
+			$('#btnCX').css('cursor','pointer').attr("src", "/pozosPemex/img/btn_CenExc_on.jpg");	
+		else if(op == 6)
+			$('#btnIP').css('cursor','pointer').attr("src", "/pozosPemex/img/btn_IndPerf_on.jpg");	
+	} 
+	
+	function cambiaBtnInactivo(op){
+		if(op==1)
+			$('#btnCE').css('cursor','pointer').attr("src", "/pozosPemex/img/btn_CaracEjec_off.jpg");	
+		else if(op == 2)
+			$('#btnPR').css('cursor','pointer').attr("src", "/pozosPemex/img/btn_ParamRef_off.jpg");	
+		else if(op == 3)
+			$('#btnDP').css('cursor','pointer').attr("src", "/pozosPemex/img/btn_DesPerf_off.jpg");	
+		else if(op == 4)
+			$('#btnPT').css('cursor','pointer').attr("src", "/pozosPemex/img/btn_PerfTerm_off.jpg");	
+		else if(op == 5)
+			$('#btnCX').css('cursor','pointer').attr("src", "/pozosPemex/img/btn_CenExc_off.jpg");	
+		else if(op == 6)
+			$('#btnIP').css('cursor','pointer').attr("src", "/pozosPemex/img/btn_IndPerf_off.jpg");	
+	}
+
+</script -->  
+
+
+<style>
+.ui-menu { width: 150px; }
+</style>
+
+<body>
+<!-- table align="center">
+<tr>
+	 	<td width="140px"><img id="btnCE"  src="/pozosPemex/img/btn_CaracEjec_off.jpg" alt="Caracteristicas de ejecución" onmouseover="cambiaBtnActivo(1);" onmouseout="cambiaBtnInactivo(1);"></td>
+		<td width="140px"><img id="btnPR" src="/pozosPemex/img/btn_ParamRef_off.jpg" alt="Parámetros de referencia" onmouseover="cambiaBtnActivo(2);" onmouseout="cambiaBtnInactivo(2);"></td>
+		<td width="140px"><img id="btnDP" src="/pozosPemex/img/btn_DesPerf_off.jpg" alt="Desarrollo y perforación" onmouseover="cambiaBtnActivo(3);" onmouseout="cambiaBtnInactivo(3);"></td>
+		<td width="140px"><img id="btnPT" src="/pozosPemex/img/btn_PerfTerm_off.jpg" alt="Perforación y terminación" onmouseover="cambiaBtnActivo(4);" onmouseout="cambiaBtnInactivo(4);"></td>
+		<td width="140px"><html:link action="/pozosInicio.do?method=pozosInicio"><img id="btnCX" src="/pozosPemex/img/btn_CenExc_off.jpg" alt="Centro de excelencia" onmouseover="cambiaBtnActivo(5);" onmouseout="cambiaBtnInactivo(5);"></html:link></td>
+		<td width="140px"><img id="btnIP" src="/pozosPemex/img/btn_IndPerf_off.jpg" alt="Indicadores de perforación" onmouseover="cambiaBtnActivo(6);" onmouseout="cambiaBtnInactivo(6);"> </td>
+
+</tr>
+</table -->
+  <table align="left">
+  	<tr>
+  		<td width="152px" valign="middle"><img src="/pozosPemex/img/logo_pemex3.jpg" alt="informacion pozo pemex"></td>
+  	 <td>
+	  <div class="wrapper">
+	    <ul class="slider">
+	      <li><img src="/pozosPemex/img/carrousel/imgPozo1.jpg"/></li>
+	      <li><img src="/pozosPemex/img/carrousel/imgPozo2.jpg"/></li>
+	      <li><img src="/pozosPemex/img/carrousel/imgPozo3.jpg"/></li>
+	      <li><img src="/pozosPemex/img/carrousel/imgPozo4.jpg"/></li>
+	      <li><img src="/pozosPemex/img/carrousel/imgPozo5.jpg"/></li>
+	      <li><img src="/pozosPemex/img/carrousel/imgPozo6.jpg"/></li>
+	      <li><img src="/pozosPemex/img/carrousel/imgPozo7.jpg"/></li>
+	    </ul>
+	  </div>
+	
+	  <!-- script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	  <script>window.jQuery || document.write('<script src="/pozosPemex/js/jquery/jquery-1.9.1.min.js"><\/script>')</script -->
+	
+	  <script src="/pozosPemex/js/jquery/main.js"></script>
+	  </td>
+  	</tr>  
+  </table>
+  <br/><br/>
+<div id="wrap">
+	<header>
+		<div class="inner relative">
+			<a class="logo" href="http://www.freshdesignweb.com"></a>
+			<a id="menu-toggle" class="button dark" href="#"><i class="icon-reorder"></i></a>
+			<nav id="navigation">
+				<ul id="main-menu">
+					<li class="current-menu-item"><a href="http://127.0.0.1:8080/pozosPemex/dropDownMenu/index.htm">Home</a></li>
+					<li><a href="#">Caracterizaci&oacute;n Ejecuci&oacute;n</a></li>
+					<li class="parent">
+						<a href="#">Centro Excelencia</a>
+						<ul class="sub-menu">
+							<li><a href="#"><i class="icon-wrench"></i> Infraestructura Visualizaci&oacute;n</a></li>
+							<li><a href="#"><i class="icon-credit-card"></i>  Software</a></li>
+							<li><a href="#"><i class="icon-gift"></i> Distribuci&oacute;n</a></li>
+							<li><a href="#"><i class="icon-gift"></i> Seguimiento y control</a></li>
+							
+							<!-- li>
+								<a class="parent" href="#"><i class="icon-file-alt"></i> Opcion 1</a>
+								<ul class="sub-menu">
+									<li><a href="http://www.freshdesignweb.com/responsive-drop-down-menu-jquery-css3-using-icon-symbol.html">Full Width</a></li>
+									<li><a href="http://www.freshdesignweb.com/responsive-drop-down-menu-jquery-css3-using-icon-symbol.html">Left Sidebar</a></li>
+									<li><a href="http://www.freshdesignweb.com/responsive-drop-down-menu-jquery-css3-using-icon-symbol.html">Right Sidebar</a></li>
+									<li><a href="http://www.freshdesignweb.com/responsive-drop-down-menu-jquery-css3-using-icon-symbol.html">Double Sidebar</a></li>
+								</ul>
+							</li-->
+							
+						</ul>
+					</li>
+					<li class="parent">
+						<a href="#">Par&aacute;metros de referencia</a>
+						<ul class="sub-menu">
+							<li><a href="#">Selecci&oacute;n estad&iacute;stica</a></li>
+							<li><a href="#">Definir tiempos y costos</a></li>
+							<li><a href="#">Crear intervenci&oacute;n</a></li>						
+							<li><a href="#">Documentar matriz</a></li>						
+						</ul>
+					</li>
+					<li class="parent">
+						<a href="#">Indicadores del negocio</a>
+						<ul class="sub-menu">
+							<li><a href="#">Operativos</a></li>
+							<li><a href="#">Estrategicos</a></li>
+							<li><a href="#">Negocio</a></li>
+						</ul>
+					</li>
+					<li class="parent">
+						<a href="#">Perforaci&oacute;n, terminaci&oacute;n, reparaci&oacute;n virtual</a>
+						<ul class="sub-menu">
+							<li><a href="#">Comparar matriz</a></li>
+							<li><a href="#">Areas de oportunidad</a></li>
+							<li><a href="#">Desarrollar perforaci&oacute;n, terminaci&oacute;n, reparaci&oacute;n virtual</a></li>
+						</ul>
+					</li>
+					<li class="parent">
+						<a href="#">Intervenci&oacute;n a pozos futura</a>
+						<ul class="sub-menu">
+							<li><a href="#">Analizar tiempos de movimiento</a></li>
+							<li><a href="#">Analizar relaci&oacute;n de esperas</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+			<div class="clear"></div>
+		</div>
+	</header>	
+</div>  
+<br>
+<ul id="menu">
+	<li class="ui-state-disabled"><a href="#">Aberdeen</a></li>
+	<li><a href="#">Ada</a></li>
+	<li><a href="#">Adamsville</a></li>
+	<li><a href="#">Addyston</a></li>
+	<li>
+		<a href="#">Delphi</a>
+		<ul>
+			<li class="ui-state-disabled"><a href="#">Ada</a></li>
+			<li><a href="#">Saarland</a></li>
+			<li><a href="#">Salzburg</a></li>
+		</ul>
+	</li>
+	<li><a href="#">Saarland</a></li>
+	<li>
+		<a href="#">Salzburg</a>
+		<ul>
+			<li>
+				<a href="#">Delphi</a>
+				<ul>
+					<li><a href="#">Ada</a></li>
+					<li><a href="#">Saarland</a></li>
+					<li><a href="#">Salzburg</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="#">Delphi</a>
+				<ul>
+					<li><a href="#">Ada</a></li>
+					<li><a href="#">Saarland</a></li>
+					<li><a href="#">Salzburg</a></li>
+				</ul>
+			</li>
+			<li><a href="#">Perch</a></li>
+		</ul>
+	</li>
+	<li class="ui-state-disabled"><a href="#">Amesville</a></li>
+</ul>
+
+<div class="demo-description">
+<p>A menu with the default configuration, disabled items and nested menus. A list is transformed, adding theming, mouse and keyboard navigation support. Try to tab to the menu then use the cursor keys to navigate.</p>
+</div>
+<script type="text/javascript">
+$(function() {
+	$( "#menu" ).menu();
+});
+</script>
+</body>
+</html:html>

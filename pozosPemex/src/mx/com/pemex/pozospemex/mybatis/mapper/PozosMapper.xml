@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mx.com.pemex.pozospemex.mybatis.mapper.PozosMapper">
+
+	<!-- ##### CONSULTA DE POZOS ##### -->
+	<resultMap id="result_getInformacionPozos" type="PozoInformacionDto">
+		<id		property="id"					column="ID"/>
+		<result property="direccion"			column="DIRECCION"/>
+		<result property="descDireccion" 		column="DESCDIR"/>
+		<result property="subDireccion"			column="SUBDIRECCION"/>
+		<result property="descSubDireccion"		column="DESCSUBDIR"/>
+		<result property="activo"				column="ACTIVO"/>
+		<result property="descActivo"			column="DESCACTIVO"/>
+		<result property="unidadOperativa"		column="UNIDADOPER"/>
+		<result property="descUnidadOperativa"	column="DESCUNIOPE"/>
+		<result property="actividad"			column="ACTIVIDAD"/>
+		<result property="descActividad"		column="DESCACTIVIDAD"/>
+		<result property="proyecto"				column="PROYECTO"/>
+		<result property="descProyecto"			column="DESCPROYECTO"/>
+		<result property="campo"				column="CAMPO"/>
+		<result property="descCampo"			column="DESCCAMPO"/>
+		<result property="pozo" 				column="POZO"/>
+		<result property="tipoPozo" 			column="TIPO_POZO"/>
+		<result property="equipo" 				column="EQUIPO"/>
+		<result property="descEquipo" 			column="DESCEQUIPO"/>
+		<result property="numEquipo" 			column="NUMEQUIPO"/>
+		<result property="capEquipo"			column="CAPEQUIPO"/>
+		<result property="tipoContrato" 		column="TIPO_CONTRATO"/>
+		<result property="utr" 					column="UTR"/>
+		<result property="proxTr" 				column="PROXTR"/>
+		<result property="inclinacion" 			column="INCLINACION"/>
+		<result property="desplazamiento" 		column="DESPLAZAMIENTO"/>
+		<result property="profundidad" 			column="PROFUNDIDAD"/>
+		<result property="fechaInicio" 			column="FECHAINI"/>
+		<result property="fechaTermino" 		column="FECHAFIN"/>
+		<result property="costoProg" 			column="COSTO_PROG"/>
+		<result property="costoReal" 			column="COSTO_REAL"/>
+		<result property="formacionObj" 		column="FORMACION_OBJ"/>
+		<result property="operacion" 			column="OPERACION"/>
+		<result property="estatus" 				column="STATUS"/>
+		<result property="descEstatus" 			column="DESCSTATUS"/>
+		<result property="validado" 			column="VALIDADO"/>
+		<result property="obs" 					column="OBS"/>
+		<result property="responsable" 			column="RESPONSABLE"/>
+		<result property="latitud" 				column="LATITUD"/>
+		<result property="longitud" 			column="LONGITUD"/>		
+	</resultMap>
+
+	<select id="spr_InformacionPozos" parameterType="ConsultaInfoPozoDto" resultMap="result_getInformacionPozos">
+		SELECT DISTINCT 
+		       POZ.ID, POZ.CVE, 
+		       POZ.DIRECCION, DIRPOZ.DESCDIR,
+		       POZ.SUBDIRECCION, SUB_POZ.DESCSUBDIR,
+		       POZ.ACTIVO, ACTPOZ.DESCACTIVO,
+		       POZ.UNIDADOPER, UOPPOZ.DESCUNIOPE,
+		       POZ.ACTIVIDAD, ACTDPOZ.DESCACTIVIDAD,
+		       POZ.PROYECTO, PROPOZ.DESCPROYECTO,
+		       POZ.CAMPO, CMPPOZ.DESCCAMPO,
+		       POZ.POZO, POZ.TIPO_POZO, POZ.EQUIPO, EQUPOZ.DESCEQUIPO,
+		       POZ.NUMEQUIPO, POZ.CAPEQUIPO, POZ.TIPO_CONTRATO,
+		       POZ.UTR, POZ.PROXTR, POZ.INCLINACION,
+		       POZ.DESPLAZAMIENTO, POZ.PROFUNDIDAD,
+		       POZ.FECHAINI, POZ.FECHAFIN, POZ.COSTO_PROG,
+		       POZ.COSTO_REAL, POZ.FORMACION_OBJ, POZ.OPERACION,
+		       POZ.STATUS, STSPOZ.DESCSTATUS, POZ.VALIDADO,
+		       POZ.OBS, POZ.RESPONSABLE, POZ.LATITUD, POZ.LONGITUD
+		  FROM PEMEX.POZO POZ,
+		       PEMEX.ACTIVIDAD_POZO ACTDPOZ,
+		       PEMEX.ACTIVO_POZO ACTPOZ,
+		       PEMEX.CAMPO_POZO CMPPOZ,
+		       PEMEX.DIRECCION_POZO DIRPOZ,
+		       PEMEX.EQUIPO_POZO EQUPOZ,
+		       PEMEX.PROYECTO_POZO PROPOZ,
+		       PEMEX.STATUS_POZO STSPOZ,
+		       PEMEX.SUBDIRECCION_POZO SUB_POZ,
+		       PEMEX.UNIOPERATIVA_POZO UOPPOZ
+		 WHERE POZ.DIRECCION = DIRPOZ.IDDIR
+		       AND POZ.SUBDIRECCION = SUB_POZ.IDSUBDIR
+		       AND POZ.ACTIVO = ACTPOZ.IDACTIVO
+		       AND POZ.UNIDADOPER = UOPPOZ.IDUNIOPE
+		       AND POZ.ACTIVIDAD = ACTDPOZ.IDACTIVIDAD
+		       AND POZ.PROYECTO = PROPOZ.IDPROYECTO
+		       AND POZ.CAMPO = CMPPOZ.IDCAMPO
+		       AND POZ.EQUIPO = EQUPOZ.IDEQUIPO
+		       AND POZ.STATUS = STSPOZ.IDSTATUS
+		       <if test="direccion != 0">
+		       AND DIRPOZ.IDDIR = #{direccion}
+		       </if>
+		       <if test="direccion = 0">
+		       AND DIRPOZ.IDDIR IN (SELECT IDDIR FROM PEMEX.DIRECCION_POZO)
+		       </if>		       
+		       --AND SUB_POZ.IDSUBDIR = 1 
+		       AND SUB_POZ.IDSUBDIR IN (SELECT IDSUBDIR FROM PEMEX.SUBDIRECCION_POZO)
+		       --AND ACTPOZ.IDACTIVO = 1
+		       AND ACTPOZ.IDACTIVO IN (SELECT IDACTIVO FROM PEMEX.ACTIVO_POZO)
+		       --AND UOPPOZ.IDUNIOPE = 1
+		       AND UOPPOZ.IDUNIOPE IN (SELECT IDUNIOPE FROM PEMEX.UNIOPERATIVA_POZO)
+		       --AND ACTDPOZ.IDACTIVIDAD = 1
+		       AND ACTDPOZ.IDACTIVIDAD IN (SELECT IDACTIVIDAD FROM PEMEX.ACTIVIDAD_POZO)
+		       --AND PROPOZ.IDPROYECTO = 1
+		       AND PROPOZ.IDPROYECTO IN (SELECT IDPROYECTO FROM PEMEX.PROYECTO_POZO)
+		       --AND CMPPOZ.IDCAMPO = 1
+		       AND CMPPOZ.IDCAMPO IN (SELECT IDCAMPO FROM PEMEX.CAMPO_POZO)
+		       --AND EQUPOZ.IDEQUIPO = 1
+		       AND EQUPOZ.IDEQUIPO IN (SELECT IDEQUIPO FROM PEMEX.EQUIPO_POZO)
+		       --AND STSPOZ.IDSTATUS  = 1;
+		       AND STSPOZ.IDSTATUS IN (SELECT IDSTATUS FROM PEMEX.STATUS_POZO)	
+	</select>
+
+</mapper>

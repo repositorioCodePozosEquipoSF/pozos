@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mx.com.pemex.pozostipo.mybatis.mapper.PozosTipoMapper">
+
+	<resultMap id="result_getInformacionPozosTipo" type="PozosTipo">
+		<id		property="id"					column="ID"/>
+		<result property="subDireccion"			column="SUBDIRECCION"/>
+		<result property="activo"		 		column="ACTIVO"/>
+		<result property="proyecto"				column="PROYECTO"/>
+		<result property="campo"				column="CAMPO"/>
+		<result property="idExpDes"				column="IDEXPDES"/>
+		<result property="descExpDes"			column="DESCEXPDES"/>
+		<result property="id_Pz"				column="ID_PZ"/>
+		<result property="pozoTipo"				column="POZOTIPO"/>
+		<result property="formacion"			column="FORMACION"/>
+		<result property="profundidad"			column="PROFUNDIDAD"/>
+		<result property="idModalidad"			column="IDMODALIDAD"/>
+		<result property="descModalidad"		column="DESCMODALIDAD"/>
+		<result property="idOrientacion"		column="IDORIENTACION"/>
+		<result property="descOrientacion"		column="DESCORIENTACION"/>
+		<result property="tipo" 				column="TIPO"/>
+		<result property="tmpoPerforacion"		column="TMPOPERFORACION"/>
+		<result property="tmpoTerminacion"		column="TMPOTERMINACION"/>
+		<result property="tmpoTotal" 			column="TMPOTOTAL"/>
+		<result property="cstPerforacion"		column="CSTPERFORACION"/>
+		<result property="cstTerminacion"		column="CSTTERMINACION"/>
+		<result property="cstTotal"		 		column="CSTTOTAL"/>
+		<result property="cstXmetro"			column="CSTXMETRO"/>
+		<result property="usdXpie" 				column="USDXPIE"/>
+	</resultMap>
+
+	<select id="spr_InformacionPozosTipo" resultMap="result_getInformacionPozosTipo">
+		SELECT DISTINCT PZSTPO.ID, 
+		       PZSTPO.SUBDIRECCION, 
+		       PZSTPO.ACTIVO, PZSTPO.PROYECTO, PZSTPO.CAMPO, 
+		       PZSTPO.IDEXPDES, EXPDES.DESCEXPDES, 
+		       PZSTPO.ID_PZ, PZSTPO.POZOTIPO, PZSTPO.FORMACION, 
+		       PZSTPO.PROFUNDIDAD, 
+		       PZSTPO.IDMODALIDAD, MODPZS.DESCMODALIDAD, 
+		       PZSTPO.IDORIENTACION, ORIPZS.DESCORIENTACION, 
+		       DECODE(PZSTPO.TIPO, NULL, 'S/INF', PZSTPO.TIPO) AS TIPO, 
+		       PZSTPO.TMPOPERFORACION, PZSTPO.TMPOTERMINACION,
+		       PZSTPO.TMPOTOTAL, PZSTPO.CSTPERFORACION, PZSTPO.CSTTERMINACION, 
+		       PZSTPO.CSTTOTAL, PZSTPO.CSTXMETRO, PZSTPO.USDXPIE 
+		  FROM PEMEX.POZOS_TIPO PZSTPO,
+		       PEMEX.EXPDES_POZO EXPDES,
+		       PEMEX.MODALIDAD_POZO MODPZS,
+		       PEMEX.ORIENTACION_POZO ORIPZS
+		 WHERE PZSTPO.IDEXPDES = EXPDES.IDEXPDES
+		   AND PZSTPO.IDMODALIDAD = MODPZS.IDMODALIDAD
+		   AND PZSTPO.IDORIENTACION = ORIPZS.IDORIENTACION
+		 ORDER BY PZSTPO.ID ASC
+	</select>
+</mapper>
