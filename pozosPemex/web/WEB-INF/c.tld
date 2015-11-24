@@ -9,6 +9,9 @@
   <uri>http://java.sun.com/jstl/core_rt</uri>
   <display-name>JSTL core RT</display-name>
   <description>JSTL 1.0 core library</description>
+  
+
+  
 
   <validator>
     <validator-class>
@@ -389,5 +392,7 @@
 	<type>boolean</type>
     </attribute>
   </tag>
+
+
 
 </taglib>

@@ -1,12 +1,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="/WEB-INF/struts-html.tld"  prefix="html"%>
+<%@page import="org.apache.commons.digester.rss.Item"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
-<%@ taglib uri="/WEB-INF/c.tld" 		   prefix="c"%>
-<%@ page import="java.util.List, java.util.ArrayList"  %>
-<%@ page import="mx.com.pemex.informaciontecnica.dto.InformacionTecnicaDto"  %>
-<% 
-List<InformacionTecnicaDto>   lstConsulta = (ArrayList)request.getAttribute("lstComboCit");  
+<%@ taglib uri="/WEB-INF/c.tld" prefix="c"%>
+<%@ taglib uri="/WEB-INF/utilidades/utilidades" prefix="func"%>
+<%@ page import="java.util.List, java.util.ArrayList"%>
+<%@ page
+	import="mx.com.pemex.informaciontecnica.dto.InformacionTecnicaDto"%>
+<%
+// 	List<InformacionTecnicaDto> lstConsulta = (ArrayList) request.getAttribute("lstComboCit");
 %>
 <style>
 	.row1{background-color:ivory; font-size: 8pt;}
@@ -22,35 +26,7 @@ List<InformacionTecnicaDto>   lstConsulta = (ArrayList)request.getAttribute("lst
 <script type="text/javascript">
 
 $("#divURL").css('cursor','pointer').attr('color', 'blue');
-$("#imgXLS").css('cursor','pointer'); //.bind('click', function(event){
-										//	$.ajax({
-										//		type:		"POST",
-										//		url:		"http://192.168.1.78:8080/pozosPemex/getExcelFileReport/GetExcelReport",
-												//url:		"/pozosPemex/exportarExcel.do?method=exportarExcel",
-												//data:		{consultaExportar: "Hola"},
-												//contentType:'application/x-www-form-urlencoded; charset=UTF-8',
-										//		contentType:'application/vnd.ms-excel',
-										//		success:	function(data, status){
-										//						alert("Exito!!!");
-										//					}
-										//	}); 											
-							//}
-				//);
-
-//function exportarAexcel(objLista){
-	
-//	$.ajax({
-//		type:		"POST",
-//		url:		"/pozosPemex/exportarExcel.do?method=exportarExcel",
-//		data:		{consultaExportar: objLista},
-//		contentType:'application/x-www-form-urlencoded; charset=UTF-8',
-//		success:	function(data, status){
-//						alert("Exito!!!");
-//					},
-//		dataType:	"text"
-//	}); 
-//	alert("Exito!!!");
-//}
+$("#imgXLS").css('cursor','pointer');
 </script>
 					 <p style="text-align: left; font-weight:bold; text-decoration: underline; font-size: 10pt; margin: 0;">Resultados encontrados: <%= request.getAttribute("contadorRegs") %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<logic:notEmpty name="lstComboCit" scope="session"><a href="http://192.168.1.78:8080/pozosPemex/getExcelFileReport/GetExcelReport"><img id="imgXLS" alt="" title="Exportar a Excel" src="/pozosPemex/img/xls_image.jpg"></a></logic:notEmpty></p>
 				 	 <logic:notEmpty name="lstComboCit" scope="session">
@@ -74,8 +50,20 @@ $("#imgXLS").css('cursor','pointer'); //.bind('click', function(event){
 								<td class="row<%= count.intValue()%2 %>" width="10%"><c:out value="${item.idArticulo}"/></td>
 								<td class="row<%= count.intValue()%2 %>" width="20%"><c:out value="${item.autores}"/></td>
 								<td class="row<%= count.intValue()%2 %>" width="10%"><div id="divURL" style="color: blue; cursor: pointer;"><a href="${item.url}" target="blank"><c:out value="${item.url}"/></a></div></td>
-								<td class="row<%= count.intValue()%2 %>" width="20%"><div style="cursor: pointer;"><c:if test="${item.archivo_pdf != 'S/INF'}"><a href="http://192.168.1.78:8080/pozosPemex/abrirXls.do" target="blank"><img title="Nombre archivo: ${item.archivo_pdf}" alt="${item.archivo_pdf}" src="/pozosPemex/img/pdf_image.jpg"></a></c:if><c:if test="${item.archivo_pdf == 'S/INF'}"><c:out value="${item.archivo_pdf}"/></c:if></div></td>
-							</tr>
+				<td class="row<%= count.intValue()%2 %>" width="20%"><div
+						style="cursor: pointer;">
+						<c:if test="${item.archivo_pdf != 'S/INF'}">
+						<c:out value="${utilidades.getExtension('hola.pdf')}"/>
+<%-- 						${utilidades.getExtension(item.archivo_pdf)} --%>
+							<p>${func:getExtension("hola.pdf") }</p>
+
+
+						</c:if>
+						<c:if test="${item.archivo_pdf == 'S/INF'}">
+							<c:out value="${item.archivo_pdf}" />
+						</c:if>
+					</div></td>
+			</tr>
 							</logic:iterate>
 					 </table>
 					</logic:notEmpty>

@@ -277,7 +277,7 @@ public class InformacionTecnicaAction extends DispatchAction{
 		String idArticulo = (String)request.getParameter("idArticulo");
 		String autores = (String)request.getParameter("autores");
 		String url = (String)request.getParameter("url");
-		String archivo_pdf = (String)request.getParameter("archivo_pdf");
+		String archivo = (String)request.getParameter("archivo_pdf");
 
 		ConsultaInformacionTecnicaDao objDao = new ConsultaInformacionTecnicaDao();
 		InformacionTecnicaDto objITdto = new InformacionTecnicaDto();
@@ -285,7 +285,7 @@ public class InformacionTecnicaAction extends DispatchAction{
 
 		System.out.println("idEspecialidad="+idEspecialidad+" ::: idDocto="+idDocto+" ::: fecha_publicacion="+fecha_publicacion);
 		System.out.println("titulo_docto="+titulo_docto+" ::: idArticulo="+idArticulo+" ::: autores="+autores);
-		System.out.println("url="+url+" ::: archivo_pdf="+archivo_pdf);
+		System.out.println("url="+url+" ::: archivo_pdf="+archivo);
 		
 		objITdto.setId(0);
 		objITdto.setIdEspecialidad(Integer.valueOf(idEspecialidad).intValue());
@@ -296,7 +296,7 @@ public class InformacionTecnicaAction extends DispatchAction{
 		objITdto.setIdArticulo(idArticulo);
 		objITdto.setAutores(autores);
 		objITdto.setUrl(url);
-		objITdto.setArchivo_pdf(archivo_pdf);
+		objITdto.setArchivo_pdf(archivo);
 		
 		try{
 			objDao.insertaAltaInfoTecnica(objITdto);

@@ -30,8 +30,8 @@
 			<forward name = "infoPozo"	path = "/pozosPemex/mapaPrincipal/prototipoV2.jsp"></forward>					
 		</action>
 		
-		<action path="/abrirXls"
-				type="mx.com.pemex.pozospemex.actions.AbrirXlsAction">
+		<action path="/abrir"
+				type="mx.com.pemex.pozospemex.actions.AbrirAction">
 		</action>
 		
 		<!-- ################ INFORMACION TECNICA ################ -->
